@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a repository and all the branches it has.
+ */
 public class Repository {
     private static final String DEFAULT_BRANCH_NAME = "master";
 
@@ -25,14 +28,18 @@ public class Repository {
         return this.HEAD;
     }
 
-    // Used to create a new commit in a repo
-    public Commit commit(String message) {
+    /**
+     *  Creates a new commit with the message passed.
+     */
+     public Commit commit(String message) {
         Commit commit = new Commit(++this.lastCommitId, message, HEAD.getCommit());
         this.HEAD.setCommit(commit);
         return commit;
     }
 
-    // Used to log all the commits in the repo
+    /**
+     *  Returns all the commits in the current branch
+     */
     public List<Commit> log() {
         List<Commit> log = new ArrayList<>();
 
@@ -45,7 +52,10 @@ public class Repository {
         return log;
     }
 
-    // Used to change current branch
+    /**
+     * Used to change current branch to branchName. Creates a new branch with
+     * name branchName if it doesn't already exist
+     */
     public void checkout(String branchName) {
         if (allBranches.containsKey(branchName)) {
             System.out.println("Switching to branch " + branchName);
