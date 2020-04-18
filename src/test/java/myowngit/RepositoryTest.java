@@ -44,4 +44,29 @@ public class RepositoryTest {
         repository.checkout("testBranch");
         assertThat(repository.getHead().getName(), is("testBranch"));
     }
+
+    @Test
+    public void testRepository() {
+        Repository repository = new Repository("TestRepo");
+        repository.commit("Test commit 1");
+        repository.commit("Test commit 2");
+        assertThat(getCommitChain(repository), is("10"));
+
+        repository.checkout("testBranch");
+        assertThat(getCommitChain(repository), is("10"));
+
+        repository.commit("Test commit 3");
+        assertThat(getCommitChain(repository), is("210"));
+
+        repository.checkout("master");
+        repository.commit("Test commit 4");
+        assertThat(getCommitChain(repository), is("310"));
+    }
+
+    private String getCommitChain(Repository repository) {
+        List<Commit> commits = repository.log();
+        StringBuilder stringBuilder = new StringBuilder();
+        commits.forEach(commit -> stringBuilder.append(commit.getId()));
+        return stringBuilder.toString();
+    }
 }
