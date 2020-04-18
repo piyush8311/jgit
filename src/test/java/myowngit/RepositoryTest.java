@@ -12,9 +12,9 @@ public class RepositoryTest {
     @Test
     public void testCommit() {
         Repository repository = new Repository("TestRepo");
-        Commit testCommit = repository.commit("Initial commit");
+        Commit testCommit = repository.commit("Test commit 1");
 
-        assertThat(repository.getHead(), is(testCommit));
+        assertThat(repository.getHead().getCommit(), is(testCommit));
         assertThat(testCommit.getId(), is(0));
     }
 
@@ -27,6 +27,21 @@ public class RepositoryTest {
         List<Commit> commits = repository.log();
 
         assertThat(commits.size(), is(2));
-        assertThat(commits.get(0), is(repository.getHead()));
+        assertThat(commits.get(0), is(repository.getHead().getCommit()));
+    }
+
+    @Test
+    public void testCheckout() {
+        Repository repository = new Repository("TestRepo");
+        repository.commit("Test commit 1");
+
+        repository.checkout("testBranch");
+        assertThat(repository.getHead().getName(), is("testBranch"));
+
+        repository.checkout("master");
+        assertThat(repository.getHead().getName(), is("master"));
+
+        repository.checkout("testBranch");
+        assertThat(repository.getHead().getName(), is("testBranch"));
     }
 }

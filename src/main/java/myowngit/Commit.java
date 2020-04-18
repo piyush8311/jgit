@@ -1,13 +1,13 @@
 package myowngit;
 
-public class Commit {
+class Commit {
     // Using integers for simplicity's sake
     private int id;
     private String message;
     private Commit parentCommit;
     //TODO: Implement functionality which stores information about the change
 
-    public Commit(int id, String message, Commit parentCommit) {
+    Commit(int id, String message, Commit parentCommit) {
         this.id = id;
         this.message = message;
         this.parentCommit = parentCommit;
