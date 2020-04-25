@@ -10,6 +10,6 @@ import static org.hamcrest.Matchers.is;
 public class RepositoryTest {
 
     @Test
-    public void testCommit() {
+    public void testRepository() {
     }
 }

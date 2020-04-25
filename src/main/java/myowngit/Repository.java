@@ -1,8 +1,10 @@
 package myowngit;
 
 import org.ini4j.Wini;
+import utils.Directory;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -10,29 +12,34 @@ import java.util.Optional;
  * This class represents a repository and all the branches it has.
  */
 public class Repository {
-    private String worktree;
     private String gitdir;
     private Wini configReader;
+    private Directory repositoryDirectory;
 
     public Repository(String path, boolean force) throws Exception {
-        this.worktree = path;
         initializeAndValidateGitDir(path, force);
-        initializeAndValidateConfig(path, force);
+        initializeAndValidateConfig(force);
     }
 
     private void initializeAndValidateGitDir(String path, boolean force) {
         this.gitdir = Paths.get(path).resolve(".mygit").toString();
+        this.repositoryDirectory = new Directory(this.gitdir);
+
         File file = new File(this.gitdir);
         if (!force && !file.isDirectory()) {
             throw new RuntimeException("Not a git repository " + this.gitdir);
         }
     }
 
-    private void initializeAndValidateConfig(String path, boolean force) throws Exception {
-        Optional<String> configPath = joinFileWithRepoPath("config", false);
+    private void initializeAndValidateConfig(boolean force) throws Exception {
+        Optional<String> configPath = repositoryDirectory.joinFileWithRepoPath(false, "config");
 
-        if (configPath.isPresent() && new File(configPath.get()).exists()) {
-            this.configReader = new Wini(new File(configPath.get()));
+        File configFile = null;
+        if (configPath.isPresent())
+            configFile  = new File(configPath.get());
+
+        if (configFile != null && configFile.exists()) {
+            this.configReader = new Wini(configFile);
         } else if (!force) {
             throw new RuntimeException("Config file does not exist in .mygit");
         }
@@ -45,34 +52,71 @@ public class Repository {
         }
     }
 
-    private Optional<String> joinFileWithRepoPath(String path, boolean shouldCreateDir) {
-        return Optional.of(joinWithRepoPath(path));
+    /**
+     * Will only be used by init command handler function
+     */
+    public void createRepository() throws Exception {
+        createRequiredDirs();
+        createRequiredFiles();
     }
 
-    private Optional<String> joinDirWithRepoPath(String path, boolean shouldCreateDir) {
-        String dirPath = joinWithRepoPath(path);
-        File file = new File(dirPath);
-        if(file.exists()) {
-            if (file.isDirectory()) {
-                return Optional.of(dirPath);
-            } else {
-                throw new RuntimeException("Not a directory " + dirPath);
-            }
-        }
+    private void createRequiredDirs() {
+        createGitDir();
+        createDir("branches");
+        createDir("objects");
+        createDir("refs", "tags");
+        createDir("refs", "heads");
+    }
 
-        if (shouldCreateDir) {
-            if(file.mkdir()) {
-                System.out.println("Created dir successfully " + dirPath);
-                return Optional.of(dirPath);
-            } else {
-                throw new RuntimeException("Could not create dir " + dirPath);
+    private void createGitDir() {
+        File file = new File(this.gitdir);
+        if (file.exists()) {
+            if (!file.isDirectory()) {
+                throw new RuntimeException("Not a directory " + this.gitdir);
+            }
+            if (file.listFiles().length != 0) {
+                throw new RuntimeException("Not an empty directory");
             }
         } else {
-            return Optional.empty();
+            file.mkdirs();
         }
     }
 
-    private String joinWithRepoPath(String path) {
-        return Paths.get(gitdir).resolve(path).toString();
+    private void createDir(String... dirName) {
+        Optional<String> path = repositoryDirectory.joinDirWithRepoPath(true, dirName);
+        assert(path.isPresent());
+        assert(new File(path.get()).isDirectory());
+    }
+
+    private void createRequiredFiles() throws Exception {
+        createDescriptionFile();
+        createHEADFile();
+        createConfigFile();
+    }
+
+    private void createDescriptionFile() throws Exception {
+        FileWriter descriptionFileWriter = new FileWriter(
+                repositoryDirectory.joinFileWithRepoPath(true,"description").get());
+        descriptionFileWriter.write("Unnamed repository; edit this file 'description' to name the repository.\n");
+    }
+
+    private void createHEADFile() throws Exception {
+        FileWriter headFileWriter = new FileWriter(
+                repositoryDirectory.joinFileWithRepoPath(true,"HEAD").get());
+        headFileWriter.write("ref: refs/heads/master\n");
+    }
+
+    private void createConfigFile() throws Exception {
+        File configFile = new File(repositoryDirectory.joinFileWithRepoPath(true,"config").get());
+        this.configReader = new Wini(configFile);
+        initializeDefaultConfig();
+        this.configReader.setFile(configFile);
+    }
+
+    private void initializeDefaultConfig() {
+        this.configReader.add("core");
+        this.configReader.add("core", "repositoryformatversion", "0");
+        this.configReader.add("core", "filemode", "false");
+        this.configReader.add("core", "bare", "false");
     }
 }

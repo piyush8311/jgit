@@ -4,16 +4,15 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.ArgumentParsers;
 
 public class MyOwnGit {
-    public static void main(String[] args) {
-        ArgumentParser argumentParser = ArgumentParsers.newFor("MyOwnGit").build();
+    public static void main(String[] args) throws Exception {
 
-        try {
-            argumentParser.parseArgs(args);
-        } catch (Exception e) {
-            System.out.println("Error while parsing args!!");
-            return;
+        String commandArgument = args[0];
+
+        switch (commandArgument) {
+            case "init": CommandFunctions.init("./");
+            case "commit": CommandFunctions.commit();
+            default:
+                System.out.println("Not a valid command");
         }
-
-        System.out.println("Test123");
     }
 }

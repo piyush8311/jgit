@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar ~/IdeaProjects/MyOwnGit/build/libs/MyOwnGit-1.0-SNAPSHOT.jar
+java -jar ~/IdeaProjects/MyOwnGit/build/libs/MyOwnGit-1.0-SNAPSHOT.jar $1
