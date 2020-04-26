@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import static myowngit.RepositoryConstants.*;
+
 /**
  * This class represents a repository and all the branches it has.
  */
@@ -22,7 +24,7 @@ public class Repository {
     }
 
     private void initializeAndValidateGitDir(String path, boolean force) {
-        this.gitdir = Paths.get(path).resolve(".mygit").toString();
+        this.gitdir = Paths.get(path).resolve(GIT_DIRECTORY).toString();
         this.repositoryDirectory = new Directory(this.gitdir);
 
         File file = new File(this.gitdir);
@@ -32,7 +34,7 @@ public class Repository {
     }
 
     private void initializeAndValidateConfig(boolean force) throws Exception {
-        Optional<String> configPath = repositoryDirectory.joinFileWithRepoPath(false, "config");
+        Optional<String> configPath = repositoryDirectory.joinFileWithRepoPath(false, CONFIG_FILE);
 
         File configFile = null;
         if (configPath.isPresent())
@@ -62,10 +64,10 @@ public class Repository {
 
     private void createRequiredDirs() {
         createGitDir();
-        createDir("branches");
-        createDir("objects");
-        createDir("refs", "tags");
-        createDir("refs", "heads");
+        createDir(BRANCHES_DIRECTORY);
+        createDir(OBJECTS_DIRECTORY);
+        createDir(REFS_DIRECTORY, TAGS_DIRECTORY);
+        createDir(REFS_DIRECTORY, HEADS_DIRECTORY);
     }
 
     private void createGitDir() {
@@ -95,7 +97,7 @@ public class Repository {
     }
 
     private void createDescriptionFile() throws Exception {
-        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,"description").get());
+        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,DESCRIPTION_FILE).get());
         file.createNewFile();
         FileWriter descriptionFileWriter = new FileWriter(file);
         descriptionFileWriter.write("Unnamed repository; edit this file 'description' to name the repository.\n");
@@ -103,7 +105,7 @@ public class Repository {
     }
 
     private void createHEADFile() throws Exception {
-        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,"HEAD").get());
+        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,HEAD_FILE).get());
         file.createNewFile();
         FileWriter headFileWriter = new FileWriter(file);
         headFileWriter.write("ref: refs/heads/master\n");
@@ -111,7 +113,7 @@ public class Repository {
     }
 
     private void createConfigFile() throws Exception {
-        File configFile = new File(repositoryDirectory.joinFileWithRepoPath(true,"config").get());
+        File configFile = new File(repositoryDirectory.joinFileWithRepoPath(true, CONFIG_FILE).get());
         configFile.createNewFile();
         this.configReader = new Wini(configFile);
         initializeDefaultConfig();
