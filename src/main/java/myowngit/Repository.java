@@ -4,6 +4,7 @@ import org.ini4j.Wini;
 import utils.Directory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class Repository {
     }
 
     private void initializeAndValidateGitDir(String path, boolean force) {
-        this.gitdir = Paths.get(path).resolve(GIT_DIRECTORY).toString();
+        this.gitdir = getGitDirPath(path);
         this.repositoryDirectory = new Directory(this.gitdir);
 
         File file = new File(this.gitdir);
@@ -60,6 +61,21 @@ public class Repository {
     public void createRepository() throws Exception {
         createRequiredDirs();
         createRequiredFiles();
+    }
+
+    public static Repository findRepository(String path) throws Exception {
+        path = new File(path).getCanonicalPath();
+
+        if (new File(getGitDirPath(path)).isDirectory()) {
+            return new Repository(path, false);
+        }
+
+        String parentPath = new File(Paths.get(path).resolve("..").toString()).getCanonicalPath();
+        if (parentPath.equals(path)) {
+            throw new FileNotFoundException("No directory found!");
+        }
+
+        return findRepository(parentPath);
     }
 
     private void createRequiredDirs() {
@@ -125,5 +141,9 @@ public class Repository {
         this.configReader.add("core", "repositoryformatversion", "0");
         this.configReader.add("core", "filemode", "false");
         this.configReader.add("core", "bare", "false");
+    }
+
+    private static String  getGitDirPath(String path) {
+        return Paths.get(path).resolve(GIT_DIRECTORY).toString();
     }
 }

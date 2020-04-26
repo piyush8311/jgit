@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -74,5 +76,19 @@ public class RepositoryTest {
             throw new RuntimeException();
         }
 
+    }
+
+    @Test
+    public void test_findRepo() throws Exception {
+        Repository repository = new Repository("./testDir", true);
+        repository.createRepository();
+        Repository repository1 = Repository.findRepository("./testDir/.mygit");
+        String currentPath = new File(".").getAbsolutePath();
+        assertThat(Paths.get(currentPath).relativize(Paths.get(repository1.gitdir)).toString(), is("testDir/.mygit"));
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void test_findRepo_noRepoFound() throws Exception {
+        Repository repository1 = Repository.findRepository("./testDir/.mygit");
     }
 }
