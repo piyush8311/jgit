@@ -95,22 +95,27 @@ public class Repository {
     }
 
     private void createDescriptionFile() throws Exception {
-        FileWriter descriptionFileWriter = new FileWriter(
-                repositoryDirectory.joinFileWithRepoPath(true,"description").get());
+        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,"description").get());
+        file.createNewFile();
+        FileWriter descriptionFileWriter = new FileWriter(file);
         descriptionFileWriter.write("Unnamed repository; edit this file 'description' to name the repository.\n");
+        descriptionFileWriter.close();
     }
 
     private void createHEADFile() throws Exception {
-        FileWriter headFileWriter = new FileWriter(
-                repositoryDirectory.joinFileWithRepoPath(true,"HEAD").get());
+        File file = new File(repositoryDirectory.joinFileWithRepoPath(true,"HEAD").get());
+        file.createNewFile();
+        FileWriter headFileWriter = new FileWriter(file);
         headFileWriter.write("ref: refs/heads/master\n");
+        headFileWriter.close();
     }
 
     private void createConfigFile() throws Exception {
         File configFile = new File(repositoryDirectory.joinFileWithRepoPath(true,"config").get());
+        configFile.createNewFile();
         this.configReader = new Wini(configFile);
         initializeDefaultConfig();
-        this.configReader.setFile(configFile);
+        this.configReader.store();
     }
 
     private void initializeDefaultConfig() {

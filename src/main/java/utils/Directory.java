@@ -27,7 +27,6 @@ public class Directory {
     public Optional<String> joinDirWithRepoPath(boolean shouldCreateDir, String... path) {
         String dirPath = joinWithRepoPath(path);
         File file = new File(dirPath);
-        System.out.println(dirPath + " TEST ");
         if(file.exists()) {
             if (file.isDirectory()) {
                 return Optional.of(dirPath);
