@@ -12,7 +12,6 @@ public class Directory {
 
     public Directory(String path) {
         this.directoryPath = path;
-        assert(new File(path).isDirectory());
     }
 
     public Optional<String> joinFileWithRepoPath(boolean shouldCreateDir, String... path) {

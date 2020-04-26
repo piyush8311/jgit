@@ -12,9 +12,9 @@ import java.util.Optional;
  * This class represents a repository and all the branches it has.
  */
 public class Repository {
-    private String gitdir;
-    private Wini configReader;
-    private Directory repositoryDirectory;
+    String gitdir;
+    Wini configReader;
+    Directory repositoryDirectory;
 
     public Repository(String path, boolean force) throws Exception {
         initializeAndValidateGitDir(path, force);
