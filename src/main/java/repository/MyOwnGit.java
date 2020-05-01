@@ -1,7 +1,4 @@
-package myowngit;
-
-import net.sourceforge.argparse4j.inf.ArgumentParser;
-import net.sourceforge.argparse4j.ArgumentParsers;
+package repository;
 
 public class MyOwnGit {
     public static void main(String[] args) throws Exception {

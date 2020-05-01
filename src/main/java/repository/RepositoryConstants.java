@@ -1,4 +1,4 @@
-package myowngit;
+package repository;
 
 public class RepositoryConstants {
 

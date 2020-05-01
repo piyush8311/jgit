@@ -1,40 +1,18 @@
-package myowngit;
+package repository;
 
 import org.ini4j.Wini;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
+import utils.UnitTestsBase;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class RepositoryTest {
-
-    @Before
-    public void setup() {
-        File file = new File("./testDir");
-        file.mkdir();
-    }
-
-    @After
-    public void tearDown() {
-        File file = new File("./testDir");
-        deleteDirectory(file);
-    }
-
-    private void deleteDirectory(File file) {
-        File[] allContents = file.listFiles();
-        if (allContents != null) {
-            for (File f: allContents) {
-                deleteDirectory(f);
-            }
-        }
-        file.delete();
-    }
+public class RepositoryTest extends UnitTestsBase {
 
     @Test
     public void testRepository_createRepo() throws Exception {

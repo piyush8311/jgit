@@ -1,4 +1,4 @@
-package myowngit;
+package repository;
 
 public class CommandFunctions {
     public static void init(String path) throws Exception {

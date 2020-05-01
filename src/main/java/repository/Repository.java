@@ -1,4 +1,4 @@
-package myowngit;
+package repository;
 
 import org.ini4j.Wini;
 import utils.Directory;
@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import static myowngit.RepositoryConstants.*;
+import static repository.RepositoryConstants.*;
 
 /**
  * This class represents a repository and all the branches it has.
@@ -22,6 +22,10 @@ public class Repository {
     public Repository(String path, boolean force) throws Exception {
         initializeAndValidateGitDir(path, force);
         initializeAndValidateConfig(force);
+    }
+
+    public String getGitdir() {
+        return this.gitdir;
     }
 
     private void initializeAndValidateGitDir(String path, boolean force) {
