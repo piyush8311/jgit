@@ -64,9 +64,4 @@ public class RepositoryTest extends UnitTestsBase {
         String currentPath = new File(".").getAbsolutePath();
         assertThat(Paths.get(currentPath).relativize(Paths.get(repository1.gitdir)).toString(), is("testDir/.mygit"));
     }
-
-    @Test(expected = FileNotFoundException.class)
-    public void test_findRepo_noRepoFound() throws Exception {
-        Repository repository1 = Repository.findRepository("./testDir/.mygit");
-    }
 }
