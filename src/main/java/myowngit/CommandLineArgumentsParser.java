@@ -19,6 +19,7 @@ public class CommandLineArgumentsParser {
 
         addInitSubparser();
         addHashObjectSubParser();
+        addCatFileSubParser();
 
         try{
             return parser.parseArgs(args);
@@ -33,11 +34,11 @@ public class CommandLineArgumentsParser {
                 .metavar("directory")
                 .nargs("?")
                 .setDefault(".").help("Where to create the repository");
-
     }
 
     private static void addHashObjectSubParser() {
-        Subparser hashObjectParser = subparsers.addParser("hash-object").help("init help");
+        Subparser hashObjectParser = subparsers.addParser("hash-object")
+                .help("Compute object ID and optionally creates a blob from a file");
         hashObjectParser.addArgument("-t")
                 .metavar("type")
                 .dest("type")
@@ -51,5 +52,19 @@ public class CommandLineArgumentsParser {
                 .help("Actually write the object into the database");
 
         hashObjectParser.addArgument("path").help("Read object from <file>");
+    }
+
+    private static void addCatFileSubParser() {
+        Subparser catFileParser = subparsers.addParser("cat-file")
+                .help("Provide content of repository objects");
+
+        catFileParser.addArgument("type")
+                .metavar("type")
+                .choices("blob", "commit", "tag", "tree")
+                .help("Specify the type");
+
+        catFileParser.addArgument("object")
+                .metavar("object")
+                .help("The object to display");
     }
 }

@@ -17,7 +17,7 @@ public class CommandFunctions {
 
     public static void catFile(Namespace namespace) throws Exception {
         Repository repository = Repository.findRepository("./");
-        String hash = namespace.getString("hash");
+        String hash = namespace.getString("object");
         System.out.println(GitObjectAccessor.readObject(repository, hash).serialize());
     }
 
