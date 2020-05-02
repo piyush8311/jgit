@@ -19,6 +19,6 @@ public class GitBlob extends GitObject {
 
     @Override
     public String getType() {
-        return GitObjectType.BLOB.name();
+        return GitObjectType.blob.name();
     }
 }

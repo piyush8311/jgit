@@ -6,13 +6,13 @@ public class GitObjectFactory {
     public static GitObject ofType(String type, Repository repository, String data) {
         GitObjectType gitObjectType = GitObjectType.valueOf(type);
         switch (gitObjectType) {
-            case BLOB:
+            case blob:
                 return new GitBlob(repository, data);
-            case COMMIT:
+            case commit:
                 return new GitCommit(repository, data);
-            case TAG:
+            case tag:
                 return new GitTag(repository, data);
-            case TREE:
+            case tree:
                 return new GitTree(repository, data);
             default:
                 throw new RuntimeException("Invalid GitType :" + gitObjectType.name());
