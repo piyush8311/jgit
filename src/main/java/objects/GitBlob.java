@@ -3,6 +3,7 @@ package objects;
 import repository.Repository;
 
 public class GitBlob extends GitObject {
+    private String data;
     public GitBlob(Repository repository, String data) {
         super(repository, data);
     }

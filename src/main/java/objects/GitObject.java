@@ -4,7 +4,6 @@ import repository.Repository;
 
 public class GitObject {
     Repository repository;
-    String data;
     public GitObject(Repository repository, String data) {
         this.repository = repository;
         if (data != null) {
