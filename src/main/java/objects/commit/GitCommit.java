@@ -1,9 +1,10 @@
-package objects;
+package objects.commit;
 
 import java.util.List;
 import java.util.Map;
+import objects.GitObject;
+import objects.GitObjectType;
 import repository.Repository;
-import utils.KeyValueListAndMessage;
 
 public class GitCommit extends GitObject {
     //Key-Value list and message
@@ -12,7 +13,6 @@ public class GitCommit extends GitObject {
     public GitCommit(Repository repository, String data) {
         super(repository, data);
     }
-
 
     @Override
     public String serialize() {

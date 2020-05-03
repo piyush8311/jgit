@@ -1,5 +1,7 @@
-package objects;
+package objects.blob;
 
+import objects.GitObject;
+import objects.GitObjectType;
 import repository.Repository;
 
 public class GitBlob extends GitObject {

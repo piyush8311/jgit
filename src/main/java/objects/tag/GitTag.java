@@ -1,5 +1,6 @@
-package objects;
+package objects.tag;
 
+import objects.GitObject;
 import repository.Repository;
 
 public class GitTag extends GitObject {

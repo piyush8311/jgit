@@ -1,5 +1,7 @@
-package objects;
+package objects.blob;
 
+import objects.GitObject;
+import objects.blob.GitBlob;
 import org.junit.Test;
 import repository.Repository;
 import utils.UnitTestsBase;

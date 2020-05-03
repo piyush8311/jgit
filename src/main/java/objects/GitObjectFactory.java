@@ -1,5 +1,9 @@
 package objects;
 
+import objects.blob.GitBlob;
+import objects.commit.GitCommit;
+import objects.tag.GitTag;
+import objects.tree.GitTree;
 import repository.Repository;
 
 public class GitObjectFactory {
