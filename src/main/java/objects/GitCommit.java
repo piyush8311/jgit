@@ -1,12 +1,13 @@
 package objects;
 
+import java.util.List;
 import java.util.Map;
 import repository.Repository;
 import utils.KeyValueListAndMessage;
 
 public class GitCommit extends GitObject {
     //Key-Value list and message
-    private  Map<String, String> kvlm;
+    private  Map<String, List<String>> kvlm;
 
     public GitCommit(Repository repository, String data) {
         super(repository, data);
