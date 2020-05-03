@@ -14,6 +14,12 @@ public class MyOwnGit {
             case CATFILE:
                 CommandFunctions.catFile(namespace);
                 break;
+            case CHECKOUT:
+                CommandFunctions.checkout(namespace);
+                break;
+            case COMMIT:
+                CommandFunctions.commit(namespace);
+                break;
             case HASHOBJECT:
                 CommandFunctions.hashObject(namespace);
                 break;

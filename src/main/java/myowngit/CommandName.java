@@ -1,9 +1,11 @@
 package myowngit;
 
 public enum CommandName {
-    INIT("init"),
     CATFILE("cat-file"),
+    CHECKOUT("checkout"),
+    COMMIT("commit"),
     HASHOBJECT("hash-object"),
+    INIT("init"),
     LSTREE("ls-tree");
 
     String commandName;

@@ -28,4 +28,8 @@ public class GitCommit extends GitObject {
     public String getType() {
         return GitObjectType.commit.name();
     }
+
+    public Map<String, List<String>> getKvlm() {
+        return this.kvlm;
+    }
 }

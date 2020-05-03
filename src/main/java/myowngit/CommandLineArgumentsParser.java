@@ -17,10 +17,12 @@ public class CommandLineArgumentsParser {
                 .description("process my own git commands");
         subparsers = parser.addSubparsers().title("Commands").dest("command");
 
-        addInitSubparser();
-        addHashObjectSubParser();
-        addCatFileSubParser();
-        addLsTreeSubParser();
+        addCatFileSubParser(); // cat-file
+        addCheckoutSubParser(); // checkout
+        addCommitSubParser(); // commit
+        addHashObjectSubParser(); // hash-object
+        addInitSubparser(); // init
+        addLsTreeSubParser(); // ls-tree
 
         try{
             return parser.parseArgs(args);
@@ -74,5 +76,23 @@ public class CommandLineArgumentsParser {
 
         lsTreeParser.addArgument("object")
                 .help("The object to show");
+    }
+
+    private static void addCommitSubParser() {
+        Subparser commitParser = subparsers.addParser("commit");
+
+        commitParser.addArgument("-m")
+                .metavar("message")
+                .dest("message")
+                .help("commit with message");
+    }
+
+    private static void addCheckoutSubParser() {
+        Subparser checkoutParser = subparsers.addParser("checkout");
+
+        checkoutParser.addArgument("commit")
+                .help("The commit or tree to checkout.");
+        checkoutParser.addArgument("path")
+                .help("The EMPTY directory to checkout on");
     }
 }

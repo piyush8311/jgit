@@ -24,4 +24,8 @@ public class GitBlob extends GitObject {
     public String getType() {
         return GitObjectType.blob.name();
     }
+
+    public String getData() {
+        return this.data;
+    }
 }
