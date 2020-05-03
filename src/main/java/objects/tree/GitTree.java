@@ -26,4 +26,8 @@ public class GitTree extends GitObject {
     public String getType() {
         return GitObjectType.tree.name();
     }
+
+    public List<GitTreeNode> getTreeNodes() {
+        return this.treeNodes;
+    }
 }

@@ -6,6 +6,8 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import objects.GitObject;
 import objects.GitObjectAccessor;
 import objects.GitObjectFactory;
+import objects.tree.GitTree;
+import objects.tree.GitTreeNode;
 import repository.Repository;
 
 public class CommandFunctions {
@@ -30,5 +32,17 @@ public class CommandFunctions {
         GitObject gitObject = GitObjectFactory.ofType(type, repository, data);
 
         System.out.println(GitObjectAccessor.writeObject(gitObject, shouldActuallyWrite));
+    }
+
+    public static void lsTree(Namespace namespace) throws Exception {
+        Repository repository = Repository.findRepository("./");
+        GitTree gitTree = (GitTree) GitObjectAccessor.readObject(repository, namespace.getString("object"));
+
+        for (GitTreeNode node: gitTree.getTreeNodes()) {
+            System.out.println(String.format("%s %s %s %s",
+                    node.getMode(),
+                    GitObjectAccessor.readObject(repository, node.getSha()).getType(),
+                    node.getSha(), node.getPath()));
+        }
     }
 }

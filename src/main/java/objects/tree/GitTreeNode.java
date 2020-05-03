@@ -1,6 +1,6 @@
 package objects.tree;
 
-class GitTreeNode {
+public class GitTreeNode {
     private String path;
     private String sha;
     private String mode;
@@ -11,15 +11,15 @@ class GitTreeNode {
         this.path = path;
     }
 
-    String getPath() {
+    public String getPath() {
         return this.path;
     }
 
-    String getSha() {
+    public String getSha() {
         return this.sha;
     }
 
-    String getMode() {
+    public String getMode() {
         return this.mode;
     }
 }

@@ -17,6 +17,9 @@ public class MyOwnGit {
             case HASHOBJECT:
                 CommandFunctions.hashObject(namespace);
                 break;
+            case LSTREE:
+                CommandFunctions.lsTree(namespace);
+                break;
             default:
                 System.out.println("Not a valid command");
         }

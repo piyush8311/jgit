@@ -20,6 +20,7 @@ public class CommandLineArgumentsParser {
         addInitSubparser();
         addHashObjectSubParser();
         addCatFileSubParser();
+        addLsTreeSubParser();
 
         try{
             return parser.parseArgs(args);
@@ -66,5 +67,12 @@ public class CommandLineArgumentsParser {
         catFileParser.addArgument("object")
                 .metavar("object")
                 .help("The object to display");
+    }
+
+    private static void addLsTreeSubParser() {
+        Subparser lsTreeParser = subparsers.addParser("ls-tree");
+
+        lsTreeParser.addArgument("object")
+                .help("The object to show");
     }
 }

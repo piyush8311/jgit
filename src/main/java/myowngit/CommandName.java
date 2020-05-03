@@ -3,7 +3,8 @@ package myowngit;
 public enum CommandName {
     INIT("init"),
     CATFILE("cat-file"),
-    HASHOBJECT("hash-object");
+    HASHOBJECT("hash-object"),
+    LSTREE("ls-tree");
 
     String commandName;
 
